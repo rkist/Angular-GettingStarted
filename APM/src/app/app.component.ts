@@ -12,5 +12,5 @@ export class AppComponent
     console.log('OnInit AppComponent');
   }
 
-  pageTitle: string = 'Product Management';
+  pageTitle: string = "Madhavi's store";
 }
