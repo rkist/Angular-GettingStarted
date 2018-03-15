@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component
 ({
@@ -10,11 +11,12 @@ import { IProduct } from './product';
 })
 export class ProductDetailComponent implements OnInit 
 {
+  errorMessage: any;
   pageTitle: string = 'Product Detail';
   product: IProduct;
 
 
-  constructor(private _activatedRoute: ActivatedRoute, private _router: Router) 
+  constructor(private _productService: ProductService, private _activatedRoute: ActivatedRoute, private _router: Router) 
   {     
   }
 
@@ -22,9 +24,14 @@ export class ProductDetailComponent implements OnInit
   {
     let id = +this._activatedRoute.snapshot.paramMap.get('id');
 
-    // this.pageTitle += `: ${id}`
-    
-
+    this._productService.getProduct(id)
+      .subscribe(
+        (product) => 
+          {
+          this.product = product;
+          },
+        (error) => this.errorMessage = <any>error,
+        () => console.log('getProduct completed'));  
   }
 
   onBack(): void
