@@ -22,8 +22,8 @@ export class ProductListComponent implements OnInit
       .subscribe(
           (products) => 
             {
-            this.products = products;
-            this.filteredProducts = this.products;
+                this.products = products;
+                this.filteredProducts = this.products;
             },
           (error) => this.errorMessage = <any>error,
           () => console.log('getProducts completed'));
