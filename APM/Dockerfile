@@ -1,4 +1,11 @@
-FROM centos:latest
+# Production
+# docker build -t my-angular-project:prod .
+
+# Development
+# docker build -t my-angular-project:dev --build-arg env=dev .
+
+
+FROM centos:latest AS distro
 
 RUN yum -y update
 RUN yum install -y epel-release
@@ -17,5 +24,15 @@ COPY . /opt/app
 
 RUN npm install 
 
-EXPOSE 4200
-CMD ["ng","serve", "--host", "0.0.0.0", "--disable-host-check"] 
+ARG env=prod
+# ARG env=dev
+
+RUN npm run build -- --prod --environment $env
+
+FROM nginx:latest
+
+COPY --from=distro /opt/app/dist/ /usr/share/nginx/html
+COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+
+
+
