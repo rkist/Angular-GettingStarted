@@ -1,22 +1,21 @@
-FROM alpine:latest
+FROM centos:latest
 
-# update alpine linux
-RUN apk update && apk upgrade && \ 
-    apk add nodejs && \
-    apk add nodejs-npm && \
-    npm install -g @angular/cli
+RUN yum -y update
+RUN yum install -y epel-release
+RUN yum -y update
 
-# add source code to images
-ADD . /src
+RUN yum install -y nodejs --enablerepo=epel
 
-# switch working directory
-WORKDIR /src
+RUN npm install npm
 
-# install dependencies
-RUN npm install
+RUN npm install @angular/cli
+RUN npm link @angular/cli
 
-# expose port 4200
-EXPOSE 4200 
+WORKDIR /opt/app
 
-# run ng serve on localhost
+COPY . /opt/app
+
+RUN npm install 
+
+EXPOSE 4200
 CMD ["ng","serve", "--host", "0.0.0.0", "--disable-host-check"] 
