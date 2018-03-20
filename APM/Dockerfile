@@ -5,20 +5,35 @@
 # docker build -t my-angular-project:dev --build-arg env=dev .
 
 
-FROM node:latest as node
-WORKDIR /app
-COPY package.json /app/
-RUN npm install
-COPY ./ /app/
+FROM centos:latest AS distro
+
+RUN yum -y update
+RUN yum install -y epel-release
+RUN yum -y update
+
+RUN yum install -y nodejs --enablerepo=epel
+
+RUN npm install npm
+
+RUN npm install @angular/cli
+RUN npm link @angular/cli
+
+WORKDIR /opt/app
+
+COPY . /opt/app
+
+RUN npm install 
 
 ARG env=prod
+# ARG env=dev
 
 RUN npm run build -- --prod --environment $env
 
 FROM nginx:latest
 
-COPY --from=node /app/dist/ /usr/share/nginx/html
+COPY --from=distro /opt/app/dist/ /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+
 
 
 
