@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  productsapi:
+    image: productsapi
+    build:
+      context: .
+      dockerfile: ProductsAPI/Dockerfile
