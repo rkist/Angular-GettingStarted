@@ -5,7 +5,7 @@
 # docker build -t my-angular-project:dev --build-arg env=dev .
 
 
-FROM centos:latest AS distro
+FROM centos:latest AS node-build
 
 RUN yum -y update
 RUN yum install -y epel-release
@@ -31,7 +31,7 @@ RUN npm run build -- --prod --environment $env
 
 FROM nginx:latest
 
-COPY --from=distro /opt/app/dist/ /usr/share/nginx/html
+COPY --from=node-build /opt/app/dist/ /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
 
