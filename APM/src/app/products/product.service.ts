@@ -20,15 +20,21 @@ export class ProductService
 
     getProducts(): Observable<IProduct[]>
     {
-        return this._http.get<IProduct[]>(this._productUrl)
-        .do(data => console.log('All: ' + JSON.stringify(data)))
-        .catch(this.handleError);
+        let url = this._productUrl;
+        return this._http.get<IProduct[]>(url)
+            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .catch(this.handleError);
     }
 
     getProduct(id: number): Observable<IProduct>
     {
-        return this.getProducts()
-            .map((products: IProduct[]) => products.find(p => p.productId === id));
+        let url = this._productUrl + "/" + +id;
+        return this._http.get<IProduct>(url)
+            .do(data => console.log(+id + ': ' + JSON.stringify(data)))
+            .catch(this.handleError);
+
+        // return this.getProducts()
+        //     .map((products: IProduct[]) => products.find(p => p.productId === id));
     }
 
     private handleError(err: HttpErrorResponse) : ErrorObservable

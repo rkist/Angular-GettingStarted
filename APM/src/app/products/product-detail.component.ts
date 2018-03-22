@@ -28,6 +28,7 @@ export class ProductDetailComponent implements OnInit
       .subscribe(
         (product) => 
           {
+            // console.log(product);
             this.product = product;
           },
         (error) => this.errorMessage = <any>error,

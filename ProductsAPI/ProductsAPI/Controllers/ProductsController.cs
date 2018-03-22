@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ProductsAPI.Controllers
 {
@@ -15,7 +16,7 @@ namespace ProductsAPI.Controllers
   {
     private string _filePath = @"./products/products.json";
 
-    public string LoadProducts()
+    public JArray LoadProducts()
     {
       string json;
       using (StreamReader r = new StreamReader(_filePath))
@@ -23,7 +24,9 @@ namespace ProductsAPI.Controllers
         json = r.ReadToEnd();          
       }
 
-      return json;
+      var jArray = JArray.Parse(json);
+
+      return jArray;
     }
 
     // GET api/products
@@ -32,7 +35,7 @@ namespace ProductsAPI.Controllers
     public string Get()
     {
       var products = LoadProducts();
-      return products;
+      return products.ToString();
     }
 
 
@@ -40,7 +43,15 @@ namespace ProductsAPI.Controllers
     [EnableCors("AllowAllOrigins")]
     public string Get(int id)
     {
-      return "value";
+      var products = LoadProducts();
+      foreach (var product in products)
+      {
+        if (product["productId"].ToString() == id.ToString())
+        {
+          return product.ToString();
+        }
+      }
+      return "";
     }
   }
 }
