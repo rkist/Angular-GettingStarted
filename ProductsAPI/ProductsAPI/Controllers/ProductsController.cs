@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -27,10 +28,19 @@ namespace ProductsAPI.Controllers
 
     // GET api/products
     [HttpGet]
+    [EnableCors("AllowAllOrigins")]
     public string Get()
     {
       var products = LoadProducts();
       return products;
+    }
+
+
+    [HttpGet("{id}")]
+    [EnableCors("AllowAllOrigins")]
+    public string Get(int id)
+    {
+      return "value";
     }
   }
 }
