@@ -5,4 +5,4 @@ services:
     image: productsapi
     build:
       context: .
-      dockerfile: ProductsAPI/Dockerfile
+      dockerfile: ProductsAPI/Dockerfile.vsbuild
