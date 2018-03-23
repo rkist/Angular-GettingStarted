@@ -1,11 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ProductGuardService } from './product-guard.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('ProductGuardService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductGuardService]
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [ProductGuardService],
+      // schemas: [NO_ERRORS_SCHEMA]
     });
   });
 
