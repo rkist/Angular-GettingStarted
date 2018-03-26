@@ -4,7 +4,7 @@
 # Development
 # docker build -t my-angular-project:dev --build-arg env=dev .
 
-
+#centos7
 FROM centos:latest AS node-build
 
 RUN yum -y update
@@ -29,7 +29,8 @@ ARG env=prod
 
 RUN npm run build -- --prod --environment $env
 
-FROM nginx:latest
+#1.13.10
+FROM nginx:alpine
 
 COPY --from=node-build /opt/app/dist/ /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
