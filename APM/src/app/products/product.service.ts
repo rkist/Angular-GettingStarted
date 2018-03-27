@@ -13,7 +13,8 @@ export class ProductService
     //private _productUrl = './api/products/products.json';
     // private _productUrl = 'https://us-central1-madhavisite-197812.cloudfunctions.net/getproducts';
     // private _productUrl = 'http://localhost:32769/api/products';
-    private _productUrl = "https://productsapi-198816.appspot.com/api/products";
+    // private _productUrl = "https://productsapi-198816.appspot.com/api/products";
+    private _productUrl = "https://back-end-dot-madhavisite-197812.appspot.com/api/products";
     
 
     constructor(private _http: HttpClient)
