@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  frontend:
+    image: apmimg
+    ports: 
+      - 8080:80
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+    
+  backend:
+    image: productsapi
+    ports:
+      - 8081:80
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
