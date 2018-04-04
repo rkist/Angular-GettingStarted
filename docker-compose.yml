@@ -1,0 +1,41 @@
+version: '3.4'
+services:
+  frontend:
+    image: apmimg:latest
+    networks:
+      - core-infra    
+    ports: 
+      - 8080:80
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+    
+  backend:
+    image: productsapi:latest
+    volumes:
+      - myvol:/opt/myvol
+    networks:
+      - core-infra
+    ports:
+      - 8081:80
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+
+networks:
+  core-infra:
+    driver: overlay
+
+volumes:
+  myvol: 
+    driver: local
